@@ -9,18 +9,16 @@
   ],
   "context": [
     "## About",
-    "Terraform Module to provision a basic IAM user suitable for CI/CD Systems or systems which are *external* ",
-    "to AWS that cannot leverage [AWS IAM Instance Profiles](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) ",
+    "Terraform Module to provision a basic IAM user suitable for CI/CD Systems or systems which are *external*",
+    "to AWS that cannot leverage [AWS IAM Instance Profiles](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)",
     "or [AWS OIDC](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html).",
-    "By default, IAM users, groups, and roles have no access to AWS resources. ",
-    "IAM policies are the means by which privileges are granted to users, groups, or roles. ",
-    "It is recommended that IAM policies be applied directly to groups and roles but not users. ",
-    "**This module intentionally attaches an IAM policy directly to the user and does not use groups** ",
-    "",
-    "If an AWS Access Key is created, it is stored either in [AWS Secret Manager](https://aws.amazon.com/secrets-manager/) or is provided as a module output, but not both. ",
-    "Using [AWS Secret Manager](https://aws.amazon.com/secrets-manager/) is recommended because module outputs are stored in plaintext in the Terraform state file. ",
-    "[AWS Secret Manager](https://aws.amazon.com/secrets-manager/) is provisioning by [external module](https://registry.terraform.io/modules/Infrastrukturait/secret-manager/aws/latest).",
-    ""
+    "By default, IAM users, groups, and roles have no access to AWS resources.",
+    "IAM policies are the means by which privileges are granted to users, groups, or roles.",
+    "It is recommended that IAM policies be applied directly to groups and roles but not users.",
+    "**This module intentionally attaches an IAM policy directly to the user and does not use groups**",
+    "If an AWS Access Key is created, it is stored either in [AWS Secret Manager](https://aws.amazon.com/secrets-manager/) or is provided as a module output, but not both.",
+    "Using [AWS Secret Manager](https://aws.amazon.com/secrets-manager/) is recommended because module outputs are stored in plaintext in the Terraform state file.",
+    "[AWS Secret Manager](https://aws.amazon.com/secrets-manager/) is provisioning by [external module](https://registry.terraform.io/modules/Infrastrukturait/secret-manager/aws/latest)."
   ],
   "includes": [
     "docs/terraform.md"

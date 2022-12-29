@@ -1,19 +1,18 @@
 locals {
-  username              = aws_iam_user.this.name
+  username = aws_iam_user.this.name
 
-  inline_policies_map   = merge(
+  inline_policies_map = merge(
     var.inline_policies_map,
     { for i in var.inline_policies : md5(i) => i }
   )
 
-  policy_arns_map       = merge(
+  policy_arns_map = merge(
     var.policy_arns_map,
     { for i in var.policy_arns : i => i }
   )
 
-  key_id_sm_path        = "${trimsuffix(var.sm_base_path, "/")}/${local.username}/access_key_id"
-  secret_sm_path        = "${trimsuffix(var.sm_base_path, "/")}/${local.username}/secret_access_key"
-  smtp_password_sm_path = "${trimsuffix(var.sm_base_path, "/")}/${local.username}/ses_smtp_password_v4"
+  secret_key_name = "${trimsuffix(var.sm_base_path, "/")}/${local.username}"
+
 }
 
 resource "aws_iam_user" "this" {
@@ -34,8 +33,8 @@ resource "aws_iam_user_policy" "this" {
   lifecycle {
     create_before_destroy = true
   }
-  user        = local.username
-  policy      = each.value
+  user   = local.username
+  policy = each.value
 }
 
 resource "aws_iam_user_policy_attachment" "this" {
@@ -47,38 +46,23 @@ resource "aws_iam_user_policy_attachment" "this" {
   policy_arn = each.value
 }
 
-module "secret_iam_access_key" {
+module "secret_iam" {
   source  = "Infrastrukturait/secret-manager/aws"
-  version = "0.1.0"
+  version = "0.2.0"
 
-  count       = var.sm_enabled ? 1 : 0
+  count = var.sm_enabled ? 1 : 0
 
-  name        = local.key_id_sm_path
-  value       = aws_iam_access_key.this[0].id
-  description = "The AWS_ACCESS_KEY_ID for the ${local.username} user."
-  tags        = var.tags
-}
+  name = local.secret_key_name
 
-module "secret_iam_private_key" {
-  source  = "Infrastrukturait/secret-manager/aws"
-  version = "0.1.0"
-
-  count       = var.sm_enabled ? 1 : 0
-
-  name        = local.secret_sm_path
-  value       = aws_iam_access_key.this[0].secret
-  description = "The AWS_SECRET_ACCESS_KEY for the ${local.username} user."
-  tags        = var.tags
-}
-
-module "secret_ses_smtp_password" {
-  source  = "Infrastrukturait/secret-manager/aws"
-  version = "0.1.0"
-
-  count       = var.sm_enabled ? (var.sm_ses_smtp_password_enabled ? 1 : 0) : 0
-
-  name        = local.smtp_password_sm_path
-  value       = aws_iam_access_key.this[0].ses_smtp_password_v4
-  description = "The AWS_SECRET_ACCESS_KEY converted into an SES SMTP password for the ${local.username} user."
+  values = merge(
+    {
+      access_key_id     = aws_iam_access_key.this[0].id
+      secret_access_key = aws_iam_access_key.this[0].secret
+    },
+    var.sm_ses_smtp_password_enabled ? {
+      ses_smtp_password_v4 = aws_iam_access_key.this[0].ses_smtp_password_v4
+    } : {}
+  )
+  description = "Access for the ${local.username} user."
   tags        = var.tags
 }

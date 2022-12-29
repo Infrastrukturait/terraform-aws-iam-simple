@@ -43,32 +43,7 @@ When `sm_enabled` is `true`, this output will be empty to keep the value secure.
 EOT
 }
 
-output "access_key_id_sm_path" {
-  value       = var.sm_enabled ? local.key_id_sm_path : null
-  description = "The Secret Manager path under which the IAM User's access key ID is stored"
-}
-
-output "secret_access_key_sm_path" {
-  value       = var.sm_enabled ? local.secret_sm_path : null
-  description = "The Secret Manager path under which the IAM User's secret access key is stored"
-}
-
-output "ses_smtp_password_v4_sm_path" {
-  value       = var.sm_enabled && var.sm_ses_smtp_password_enabled ? local.smtp_password_sm_path : null
-  description = "The Secret Manager path under which the IAM User's SES SMTP password is stored"
-}
-
-output "access_key_id_sm_arn" {
-  value       = var.sm_enabled ? module.secret_iam_access_key[0].arn : null
-  description = "The Secret Manager ARN which the IAM User's access key ID is stored"
-}
-
-output "secret_access_key_sm_arn" {
-  value       = var.sm_enabled ? module.secret_iam_private_key[0].arn : null
-  description = "The Secret Manager ARN which the IAM User's secret access key is stored"
-}
-
-output "ses_smtp_password_v4_sm_arn" {
-  value       = var.sm_enabled && var.sm_ses_smtp_password_enabled ? module.secret_ses_smtp_password[0].arn : null
-  description = "The Secret Manager ARN which the IAM User's SES SMTP password is stored"
+output "secret_arn" {
+  value       = var.sm_enabled ? module.secret_iam[0].arn : null
+  description = "Secret Manager ARN under which the IAM User's access and private key ID is stored"
 }

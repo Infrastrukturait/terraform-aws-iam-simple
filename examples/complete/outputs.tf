@@ -38,17 +38,7 @@ When `sm_enabled` is `true`, this output will be empty to keep the value secure.
 EOT
 }
 
-output "access_key_id_sm_path" {
-  value       = module.iam_deny.access_key_id_sm_path
-  description = "The Secret Manager path under which the IAM User's access key ID is stored"
-}
-
-output "secret_access_key_sm_path" {
-  value       = module.iam_deny.secret_access_key_sm_path
-  description = "The Secret Manager path under which the IAM User's secret access key is stored"
-}
-
-output "ses_smtp_password_v4_sm_path" {
-  value       = module.iam_deny.ses_smtp_password_v4_sm_path
-  description = "The Secret Manager path under which the IAM User's SES SMTP password is stored"
+output "secret_arn" {
+  value       = module.iam_deny.secret_arn
+  description = "Secret Manager ARN under which the IAM User's access and private key ID is stored"
 }

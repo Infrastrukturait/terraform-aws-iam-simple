@@ -13,15 +13,13 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.0.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.48.0 |
 
 ### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_secret_iam_access_key"></a> [secret\_iam\_access\_key](#module\_secret\_iam\_access\_key) | Infrastrukturait/secret-manager/aws | 0.1.0 |
-| <a name="module_secret_iam_private_key"></a> [secret\_iam\_private\_key](#module\_secret\_iam\_private\_key) | Infrastrukturait/secret-manager/aws | 0.1.0 |
-| <a name="module_secret_ses_smtp_password"></a> [secret\_ses\_smtp\_password](#module\_secret\_ses\_smtp\_password) | Infrastrukturait/secret-manager/aws | 0.1.0 |
+| <a name="module_secret_iam"></a> [secret\_iam](#module\_secret\_iam) | Infrastrukturait/secret-manager/aws | 0.2.0 |
 
 ### Resources
 
@@ -55,14 +53,9 @@
 | Name | Description |
 |------|-------------|
 | <a name="output_access_key_id"></a> [access\_key\_id](#output\_access\_key\_id) | The access key ID |
-| <a name="output_access_key_id_sm_arn"></a> [access\_key\_id\_sm\_arn](#output\_access\_key\_id\_sm\_arn) | The Secret Manager ARN which the IAM User's access key ID is stored |
-| <a name="output_access_key_id_sm_path"></a> [access\_key\_id\_sm\_path](#output\_access\_key\_id\_sm\_path) | The Secret Manager path under which the IAM User's access key ID is stored |
 | <a name="output_secret_access_key"></a> [secret\_access\_key](#output\_secret\_access\_key) | When `sm_enabled` is `false`, this is the secret access key for the IAM user.<br>This will be written to the state file in plain-text.<br>When `sm_enabled` is `true`, this output will be empty to keep the value secure. |
-| <a name="output_secret_access_key_sm_arn"></a> [secret\_access\_key\_sm\_arn](#output\_secret\_access\_key\_sm\_arn) | The Secret Manager ARN which the IAM User's secret access key is stored |
-| <a name="output_secret_access_key_sm_path"></a> [secret\_access\_key\_sm\_path](#output\_secret\_access\_key\_sm\_path) | The Secret Manager path under which the IAM User's secret access key is stored |
+| <a name="output_secret_arn"></a> [secret\_arn](#output\_secret\_arn) | Secret Manager ARN under which the IAM User's access and private key ID is stored |
 | <a name="output_ses_smtp_password_v4"></a> [ses\_smtp\_password\_v4](#output\_ses\_smtp\_password\_v4) | When `sm_enabled` is false, this is the secret access key converted into an SES SMTP password<br>by applying AWS's Sigv4 conversion algorithm. It will be written to the Terraform state file in plaintext.<br>When `sm_enabled` is `true`, this output will be empty to keep the value secure. |
-| <a name="output_ses_smtp_password_v4_sm_arn"></a> [ses\_smtp\_password\_v4\_sm\_arn](#output\_ses\_smtp\_password\_v4\_sm\_arn) | The Secret Manager ARN which the IAM User's SES SMTP password is stored |
-| <a name="output_ses_smtp_password_v4_sm_path"></a> [ses\_smtp\_password\_v4\_sm\_path](#output\_ses\_smtp\_password\_v4\_sm\_path) | The Secret Manager path under which the IAM User's SES SMTP password is stored |
 | <a name="output_sm_enabled"></a> [sm\_enabled](#output\_sm\_enabled) | `true` when secrets are stored in Secret Manager, `false` when secrets are stored in Terraform state as outputs. |
 | <a name="output_user_arn"></a> [user\_arn](#output\_user\_arn) | The ARN assigned by AWS for this user |
 | <a name="output_user_name"></a> [user\_name](#output\_user\_name) | Normalized IAM user name |
@@ -84,13 +77,13 @@ data "aws_iam_policy_document" "deny" {
 module "iam_deny" {
   source = "../../"
 
-  name                  = var.name
+  name = var.name
 
   force_destroy         = true
   create_iam_access_key = var.create_iam_access_key
   inline_policies       = [data.aws_iam_policy_document.deny.json]
-  sm_enabled           = var.sm_enabled
-  sm_base_path         = var.sm_base_path
+  sm_enabled            = var.sm_enabled
+  sm_base_path          = var.sm_base_path
 
   sm_ses_smtp_password_enabled = var.sm_ses_smtp_password_enabled
 }
