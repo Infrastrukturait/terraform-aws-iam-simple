@@ -1,43 +1,3 @@
-
-# terraform-aws-iam-simple
-
-[![WeSupportUkraine](https://raw.githubusercontent.com/Infrastrukturait/WeSupportUkraine/main/banner.svg)](https://github.com/Infrastrukturait/WeSupportUkraine)
-## About
-Terraform Module to provision a basic IAM user suitable for CI/CD Systems or systems which are *external* 
-to AWS that cannot leverage [AWS IAM Instance Profiles](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) 
-or [AWS OIDC](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html).
-By default, IAM users, groups, and roles have no access to AWS resources. 
-IAM policies are the means by which privileges are granted to users, groups, or roles. 
-It is recommended that IAM policies be applied directly to groups and roles but not users. 
-**This module intentionally attaches an IAM policy directly to the user and does not use groups** 
-
-If an AWS Access Key is created, it is stored either in [AWS Secret Manager](https://aws.amazon.com/secrets-manager/) or is provided as a module output, but not both. 
-Using [AWS Secret Manager](https://aws.amazon.com/secrets-manager/) is recommended because module outputs are stored in plaintext in the Terraform state file. 
-[AWS Secret Manager](https://aws.amazon.com/secrets-manager/) is provisioning by [external module](https://registry.terraform.io/modules/Infrastrukturait/secret-manager/aws/latest).
-
-## License
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
-```text
-GNU GENERAL PUBLIC LICENSE
-Version 3, 29 June 2007
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-```
-## Authors
-- Rafał Masiarek | [website](https://masiarek.pl) | [email](mailto:rafal@masiarek.pl) | [github](https://github.com/rafalmasiarek)
 <!-- BEGIN_TF_DOCS -->
 ## Documentation
 
@@ -137,7 +97,3 @@ module "iam_deny" {
 ```
 
 <!-- END_TF_DOCS -->
-
-<!-- references -->
-
-[repo_link]: https://github.com/Infrastrukturait/terraform-aws-iam-simple
