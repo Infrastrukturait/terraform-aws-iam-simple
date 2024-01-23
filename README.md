@@ -130,7 +130,6 @@ module "iam_deny" {
 
 <!-- END_TF_DOCS -->
 
-
 <!-- references -->
 
 [repo_link]: https://github.com/Infrastrukturait/terraform-aws-iam-simple
